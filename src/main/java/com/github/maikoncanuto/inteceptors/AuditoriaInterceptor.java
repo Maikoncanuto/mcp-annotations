@@ -8,6 +8,7 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import static com.github.maikoncanuto.services.validators.ValidatorAnnotation.allNotNull;
+import static com.github.maikoncanuto.services.validators.ValidatorAnnotation.returnNotNull;
 
 @Auditoria
 @Interceptor
@@ -19,7 +20,10 @@ public class AuditoriaInterceptor {
         try {
             allNotNull(invocationContext);
 
-            var process = invocationContext.proceed();
+            final var process = invocationContext.proceed();
+
+            returnNotNull(invocationContext, process);
+
             return process;
         } catch (Exception e) {
             throw e;

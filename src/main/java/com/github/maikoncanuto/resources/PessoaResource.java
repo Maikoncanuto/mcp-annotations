@@ -21,10 +21,9 @@ public class PessoaResource {
     PessoaService pessoaService;
 
     @GET
-    @Path("/preenchido")
+    @Path("preenchido")
     public Response createRetornarNulo() {
-        final var pessoa = new Pessoa();
-        final var pessoaRetorno = pessoaService.create(pessoa);
+        final var pessoaRetorno = pessoaService.create(new Pessoa(), false);
         return Response.ok()
                 .entity(pessoaRetorno)
                 .build();
@@ -33,9 +32,15 @@ public class PessoaResource {
     @GET
     @Path("nao-preenchido")
     public Response createNormal() {
-        var pessoaRetorno = pessoaService.create(null);
+        var pessoaRetorno = pessoaService.create(null, false);
         return Response.ok().entity(pessoaRetorno).build();
     }
 
 
+    @GET
+    @Path("retorna-nulo")
+    public Response createRetornaNulo() {
+        var pessoaRetorno = pessoaService.create(new Pessoa(), true);
+        return Response.ok().entity(pessoaRetorno).build();
+    }
 }
